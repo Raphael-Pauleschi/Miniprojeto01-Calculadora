@@ -4,8 +4,10 @@ import { Text, View, TouchableOpacity, Button } from 'react-native';
 import styles from './src/Style'
 
 export default function App() {
-  // Mapeamento de teclas
-  const buttons = ['LIMPAR', 'DEL', '%', '/', 7, 8, 9, "x", 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '+/-', '=','^3', '^2','^',]
+
+  const buttons = ['LIMPAR', 'DEL', '%', '/', 7, 8, 9, "x", 
+  4, 5, 6, '-', 1, 2, 3, '+', 
+  0, '.', '+/-', '=','^ 3', '^ 2','^',]
 
   const [currentNumber, setCurrentNumber] = useState("")
   const [lastNumber, setLastNumber] = useState("")
@@ -13,41 +15,49 @@ export default function App() {
 
   function calculator() {
     const splitNumbers = currentNumber.split(' ')
-    const firstNumber = parseFloat(splitNumbers[0])
-    const lastNumber = parseFloat(splitNumbers[2])
-    const operator = splitNumbers[1]
+     let operator = ' '
+    let actualNumber = 0
+    let newNumber = parseFloat(splitNumbers[0]);
+    let index = 1
+    while (index <= splitNumbers.length - 1) {
+       operator = splitNumbers[index]
+       actualNumber = parseFloat(splitNumbers[index+1])
 
-    // Faz ação referente tecla pressionada
+       
+
+       // Faz ação referente tecla pressionada
     switch (operator) {
       case '+':
-        setCurrentNumber((firstNumber + lastNumber).toString())
-        return
+        newNumber = (newNumber + actualNumber)
+        break;
       case '-':
-        setCurrentNumber((firstNumber - lastNumber).toString())
-        return
+        newNumber = (newNumber - actualNumber)
+       break;
       case 'x':
-        setCurrentNumber((firstNumber * lastNumber).toString())
-        return
+        newNumber = (newNumber * actualNumber)
+       break;
       case '/':
-        setCurrentNumber((firstNumber / lastNumber).toString())
-        return
-      case '^2':
-        setCurrentNumber((Math.pow(firstNumber,2)).toString())
-        return
-      case '^3':
-      setCurrentNumber((Math.pow(firstNumber,3)).toString())
-      return
+        newNumber = (newNumber / actualNumber)
+        break;
       case '^':
-      setCurrentNumber((Math.pow(firstNumber, lastNumber)).toString())
-      return
+     newNumber = Math.pow(newNumber, actualNumber)
+     break;
     }
+      
+  index = index +2;
+    }
+
+  setCurrentNumber(newNumber.toString())
+   
   }
 
   function handleInput(buttonPressed) {
-    console.log(buttonPressed) // Mostra no Console a tecla pressionada
     if (buttonPressed === '+' | buttonPressed === "-" | buttonPressed === "x" | buttonPressed === "/"
-    | buttonPressed === '^2' | buttonPressed === '^3' | buttonPressed === '^' ) {
+     | buttonPressed === '^' ) {
       setCurrentNumber(currentNumber + " " + buttonPressed + " ")
+      return
+    }else if( buttonPressed === '^ 2' | buttonPressed === '^ 3'){
+setCurrentNumber(currentNumber + " " + buttonPressed)
       return
     }
     switch (buttonPressed) {
@@ -73,14 +83,12 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-
-      {/* Area onde o resultado é exibido */}
       <View style={styles.results}>
         <Text style={styles.historyText}>{lastNumber}</Text>
         <Text style={styles.resultText}>{currentNumber}</Text>
       </View>
 
-      {/* Area onde os botões são exibidos*/}
+      
       <View style={styles.buttons}>
 
         {buttons.map((button) =>
