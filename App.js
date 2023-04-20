@@ -4,31 +4,7 @@ import { Text, View, TouchableOpacity, Button } from 'react-native';
 import styles from './src/Style';
 
 export default function App() {
-  const buttons = [
-    'LIMPAR',
-    'DEL',
-    '%',
-    '/',
-    7,
-    8,
-    9,
-    'x',
-    4,
-    5,
-    6,
-    '-',
-    1,
-    2,
-    3,
-    '+',
-    0,
-    '.',
-    '+/-',
-    '=',
-    '^ 3',
-    '^ 2',
-    '^',
-  ];
+  const buttons = ['LIMPAR','DEL','%','/',7,8,9,'x',4,5,6,'-',1,2,3,'+',0,'.','+/-','=','^ 3','^ 2','^',];
 
   const [currentNumber, setCurrentNumber] = useState('');
   const [lastNumber, setLastNumber] = useState('');
@@ -62,6 +38,9 @@ export default function App() {
           case '^':
             newNumber = Math.pow(newNumber, actualNumber);
             break;
+          case '%':
+            newNumber = (newNumber*1/100) * actualNumber;
+            break;
         }
 
         index = index + 2;
@@ -75,7 +54,7 @@ export default function App() {
 
   function handleInput(buttonPressed) {
     switch (buttonPressed) {
-      case '+': case '-': case 'x': case '/':case '^':
+      case '+': case '-': case 'x': case '/':case '^': case '%':
         setCurrentNumber(currentNumber + ' ' + buttonPressed + ' ');
         return;
       case '^ 2': case '^ 3':
