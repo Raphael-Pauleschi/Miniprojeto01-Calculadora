@@ -23,9 +23,9 @@ export default function App() {
        operator = splitNumbers[index]
        actualNumber = parseFloat(splitNumbers[index+1])
 
-       
-
-       // Faz ação referente tecla pressionada
+    //Verifica se o número é um número
+    if (!isNaN(actualNumber)){
+        // Faz ação referente tecla pressionada
     switch (operator) {
       case '+':
         newNumber = (newNumber + actualNumber)
@@ -45,6 +45,10 @@ export default function App() {
     }
       
   index = index +2;
+    } else{
+    return
+    }
+     
     }
 
   setCurrentNumber(newNumber.toString())
